@@ -1,8 +1,9 @@
 require('dotenv').config()
 const express = require('express');
-const morgan = require('morgan');
-const cors = require('cors');
-const helmet = require('helmet'); //security
+const morgan = require('morgan'); //logging tool
+const cors = require('cors'); //middleware that will add headers to responses when appropriate
+const helmet = require('helmet'); //security to hide information
+const logger = require('./logger');
 const cardRouter = require('./card/card-router');
 const listRouter = require('./list/list-router');
 const { NODE_ENV } = require('./config');
@@ -32,10 +33,6 @@ app.use(function validateBearerToken(req, res, next) {
 
 app.use(cardRouter);
 app.use(listRouter);
-
-app.get('/', (req, res) => {
-    res.send('Hello, boilerplate!')
-})
 
 app.use((error, req, res, next) => {
     let response
